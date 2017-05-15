@@ -24,6 +24,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_weight="1"
+        android:elevation="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -39,14 +40,15 @@
             tools:text="title" />
 
         <TextView
-            android:id="@+id/subtitle"
+            android:id="@+id/author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@android:color/black"
             android:textSize="16sp"
-            tools:text="subtitle, subtitle, subtitle," />
+            tools:text="author" />
 
         <TextView
             android:id="@+id/description"

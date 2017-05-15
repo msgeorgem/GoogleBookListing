@@ -159,7 +159,10 @@ public static final String LOG_TAG = QueryUtils.class.getSimpleName();
                 JSONObject bookS = items.getJSONObject(i);
                 JSONObject volumeInfo = bookS.getJSONObject("volumeInfo");
                 String title = volumeInfo.getString("title");
-                String subtitle = volumeInfo.getString("publisher");
+                String author = volumeInfo.getString("authors");
+                author = author.replace("\"", " ");
+                author = author.replace("]", "");
+                author = author.replace("[", "");
                 String publishedDate = volumeInfo.getString("publishedDate");
 
                 String description;
@@ -176,7 +179,7 @@ public static final String LOG_TAG = QueryUtils.class.getSimpleName();
                 if (volumeInfo.has("averageRating")) {
                     rating = volumeInfo.getDouble("averageRating");
                 } else {
-                    rating = 0.0000;
+                    rating = 0.0;
                 }
 
                 String language = volumeInfo.getString("language");
@@ -184,7 +187,7 @@ public static final String LOG_TAG = QueryUtils.class.getSimpleName();
                 JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
                 String thumbnail = imageLinks.getString("thumbnail");
 
-                book.add(new Book(title, subtitle, publishedDate, description, url, rating, language, thumbnail));
+                book.add(new Book(title, author, publishedDate, description, url, rating, language, thumbnail));
             }
 
         } catch (JSONException e) {

@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,21 +17,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class BookListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Book>> {
-
     public static final String LOG_TAG = BookListActivity.class.getName();
-
     /**
      * Constant value for the book loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
      * */
     private static final int BOOK_LOADER_ID = 1;
-
-    /** Adapter for the list of books */
-    private BookAdapter mAdapter;
-
     // TODO: Create a edittext search
     private static final String USGS_REQUEST_URL =
             "https://www.googleapis.com/books/v1/volumes?q=android&maxResults=30";
+    public ListView bookListView;
+    public BookAdapter mAdapter;
+    public int index;
+    Parcelable state;
 
     @Override
     public Loader<ArrayList<Book>> onCreateLoader(int i, Bundle bundle) {
@@ -81,10 +81,10 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     private void updateUi(final ArrayList<Book> books) {
 
         // Find a reference to the {@link ListView} in the layout
-        ListView bookListView = (ListView) findViewById(R.id.list);
+        bookListView = (ListView) findViewById(R.id.list);
 
         // Create a new {@link ArrayAdapter} of books
-        BookAdapter mAdapter = new BookAdapter(this, books);
+        mAdapter = new BookAdapter(this, books);
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -109,5 +109,32 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
                 }
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        // Save ListView state @ onPause
+        Log.d(LOG_TAG, "saving listview state @ onPause");
+        state = bookListView.onSaveInstanceState();
+        index = bookListView.getFirstVisiblePosition();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (getAdapter() != null) {
+            bookListView.setAdapter(mAdapter);
+            bookListView.setSelectionFromTop(index, 0);
+            if (state != null) {
+                bookListView.requestFocus();
+                bookListView.onRestoreInstanceState(state);
+            }
+        }
+    }
+
+    public Adapter getAdapter() {
+        return mAdapter;
     }
 }

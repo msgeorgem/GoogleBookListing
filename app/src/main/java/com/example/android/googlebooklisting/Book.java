@@ -6,7 +6,7 @@ package com.example.android.googlebooklisting;
 
 public class Book {
     private String mTitle;
-    private String mSubtitle;
+    private String mAuthor;
     private String mPublishedDate;
     private String mDescription;
     private String mUrl;
@@ -21,15 +21,15 @@ public class Book {
     /**
      * Create a new SingleNews object.
      * @param title     is the title ot the book
-     * @param subtitle it the subtitle of the book
+     * @param author it the author of the book
      * @param url       is the url of the website about books
      */
 
-    public Book(String title, String subtitle, String publishedDate, String description, String url,
-     Double rating, String language, String thumbnail) {
+    public Book(String title, String author, String publishedDate, String description, String url,
+                Double rating, String language, String thumbnail) {
 
         mTitle = title;
-        mSubtitle = subtitle;
+        mAuthor = author;
         mPublishedDate = publishedDate;
         mDescription = description;
         mUrl = url;
@@ -49,8 +49,8 @@ public class Book {
     /**
      * Get the shorttext of the book.
      */
-    public String getSubtitle() {
-        return mSubtitle;
+    public String getAuthor() {
+        return mAuthor;
     }
 
     /**

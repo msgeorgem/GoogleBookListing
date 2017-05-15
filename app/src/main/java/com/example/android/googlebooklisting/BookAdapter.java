@@ -21,6 +21,14 @@ import java.util.List;
 
 public class BookAdapter extends ArrayAdapter<Book> {
 
+    public BookAdapter(Activity context, List<Book> listBooks) {
+        // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
+        // the second argument is used when the ArrayAdapter is populating a single TextView.
+        // Because this is a custom adapter for two TextViews and an ImageView, the adapter is not
+        // going to use this second argument, so it can be any value. Here, we used 0.
+        super(context, 0b0, listBooks);
+    }
+
     /**
      * Return the formatted date string (i.e. "Mar 3, 1984") from a Date object.
      */
@@ -78,14 +86,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
         return ContextCompat.getColor(getContext(), ratingColorResourceId);
     }
 
-    public BookAdapter(Activity context, List<Book> listBooks) {
-        // Here, we initialize the ArrayAdapter's internal storage for the context and the list.
-        // the second argument is used when the ArrayAdapter is populating a single TextView.
-        // Because this is a custom adapter for two TextViews and an ImageView, the adapter is not
-        // going to use this second argument, so it can be any value. Here, we used 0.
-        super(context, 0b0, listBooks);
-    }
-
     /**
      * Provides a view for an AdapterView (ListView, GridView, etc.)
      *
@@ -99,7 +99,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Check if the existing view is being reused, otherwise inflate the view
-        ViewHolder viewHolder;;
+        ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.list_item, parent, false);
@@ -112,12 +112,12 @@ public class BookAdapter extends ArrayAdapter<Book> {
         Book currentBook = getItem(position);
 //        viewHolder.thumbnailView.setImageIcon(currentBook.getThumbnail());
         viewHolder.titleTextView.setText(currentBook.getTitle());
-        viewHolder.subtitleTextView.setText(currentBook.getSubtitle());
+        viewHolder.subtitleTextView.setText(currentBook.getAuthor());
         viewHolder.descriptionTextView.setText(currentBook.getDescription());
         // TODO: Fix the date format
-        Date dateObject = new Date(currentBook.getTimeInMilliseconds());
-        String formattedDate = formatDate(dateObject);
-        viewHolder.publishedDateView.setText(formattedDate);
+//        Date dateObject = new Date(currentBook.getTimeInMilliseconds());
+//        String formattedDate = formatDate(dateObject);
+        viewHolder.publishedDateView.setText(currentBook.getPublishedDate());
 
         String formattedRating = formatRating(currentBook.getRating());
         viewHolder.ratingView.setText(formattedRating);
@@ -148,7 +148,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
             this.titleTextView = (TextView)view
                     .findViewById(R.id.title);
             this.subtitleTextView = (TextView)view
-                    .findViewById(R.id.subtitle);
+                    .findViewById(R.id.author);
             this.descriptionTextView = (TextView)view
                     .findViewById(R.id.description);
             this.publishedDateView = (TextView)view
