@@ -91,8 +91,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
-        // Get the launch Intent
-        parseIntent(getIntent());
+        
         // Find a reference to the {@link ListView} in the layout
         bookListView = (ListView) findViewById(R.id.list);
 
@@ -105,10 +104,14 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
 
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         bookListView.setEmptyView(mEmptyStateTextView);
-        /**
-         * {@link AsyncTask} to perform the network request on a background thread, and then
-         * * update the UI with the first book in the response.
-         */
+        
+        //Initiate the Book Loader
+        getLoaderManager().initLoader(0, null, this);
+        
+        // Get the launch Intent        
+        parseIntent(getIntent());
+        
+
 
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -207,11 +210,11 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
 
             // Perform the search, passing in the search query as an argument
             // to the Cursor Loader
-            Bundle args = new Bundle();
-            args.putString(QUERY_EXTRA_KEY, searchQuery);
+            Bundle bundle = new Bundle();
+            bundle.putString(QUERY_EXTRA_KEY, searchQuery);
 
             // Restart the Cursor Loader to execute the new query.
-            getLoaderManager().restartLoader(0, args, this);
+            getLoaderManager().restartLoader(0, bundle, this);
         }
     }
 
