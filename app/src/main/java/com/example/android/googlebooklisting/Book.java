@@ -15,7 +15,6 @@ public class Book {
     private String mThumbnail;
     /** Time of the earthquake */
 
-
     /**
      * Create a new SingleNews object.
      * @param title     is the title ot the book
@@ -34,9 +33,7 @@ public class Book {
         mRating = rating;
         mLanguage = language;
         mThumbnail = thumbnail;
-
     }
-
 
     /**
      * Get the title of the book.

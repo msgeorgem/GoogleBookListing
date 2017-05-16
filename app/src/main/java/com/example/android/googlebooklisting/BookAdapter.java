@@ -35,7 +35,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
         DecimalFormat ratingFormat = new DecimalFormat("0.0");
         return ratingFormat.format(rating);
     }
-
     /**
      * Provides a view for an AdapterView (ListView, GridView, etc.)
      *
@@ -59,7 +58,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-
         }
         Book currentBook = getItem(position);
 

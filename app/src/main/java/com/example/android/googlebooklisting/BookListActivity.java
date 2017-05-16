@@ -10,7 +10,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -59,7 +58,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("q", query);
-        uriBuilder.appendQueryParameter("maxResults", "30");
+        uriBuilder.appendQueryParameter("maxResults", "40");
 
         return new BookLoader(this, uriBuilder.toString());
 
@@ -216,17 +215,6 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
 
             // Restart the Cursor Loader to execute the new query.
             getLoaderManager().restartLoader(0, args, this);
-        }
-    }
-
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            //your codes here
-
         }
     }
 

@@ -20,9 +20,6 @@ public class ImageAdapter extends ArrayAdapter<String> {
 
         super(context, textViewResourceId, imageArray);
 
-        // TODO Auto-generated constructor stub
-
-
         inflater = ((Activity) context).getLayoutInflater();
 
         imageURLArray = imageArray;

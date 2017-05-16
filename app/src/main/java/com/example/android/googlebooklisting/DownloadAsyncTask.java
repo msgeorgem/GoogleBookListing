@@ -23,7 +23,6 @@ public class DownloadAsyncTask extends AsyncTask<BookAdapter.ViewHolder, Void, B
             URL imageURL = new URL(viewHolder.imageURL);
             viewHolder.bitmap = BitmapFactory.decodeStream(imageURL.openStream());
         } catch (IOException e) {
-            // TODO: handle exception
             Log.e("error", "Downloading Image Failed");
             viewHolder.bitmap = null;
         }
@@ -32,7 +31,6 @@ public class DownloadAsyncTask extends AsyncTask<BookAdapter.ViewHolder, Void, B
 
     @Override
     protected void onPostExecute(BookAdapter.ViewHolder result) {
-        // TODO Auto-generated method stub
         if (result.bitmap == null) {
             result.imageView.setImageResource(R.mipmap.ic_launcher);
         } else {
