@@ -43,14 +43,15 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     private TextView mEmptyStateTextView;
 
     @Override
-    public Loader<ArrayList<Book>> onCreateLoader(int i, Bundle bundle) {
+    public Loader<ArrayList<Book>> onCreateLoader(int i, Bundle args) {
 
         Log.v(LOG_TAG, "onCreateLoader");
         //String query = getString(R.string.settings_query_default);
         String query = "android";
-        if (bundle != null) {
+        if (args != null) {
+            Log.i(LOG_TAG, "argument is not null");
             // Extract the search query from the arguments.
-            query = bundle.getString(QUERY_EXTRA_KEY);
+            query = args.getString(QUERY_EXTRA_KEY);
         }
 
         Uri baseUri = Uri.parse(GBOOKS_REQUEST_URL);
@@ -60,6 +61,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
         uriBuilder.appendQueryParameter("maxResults", "30");
 
         return new BookLoader(this, uriBuilder.toString());
+
 
     }
 
@@ -72,6 +74,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
         // Set empty state text to display "No internet connection"
         mEmptyStateTextView.setText(R.string.no_books);
         mAdapter.clear();
+
         // If there is a valid list of {@link Book}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (books != null && !books.isEmpty()) {
@@ -109,7 +112,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
         getLoaderManager().initLoader(0, null, this);
         
         // Get the launch Intent        
-        parseIntent(getIntent());
+        handleIntent(getIntent());
         
 
 
@@ -176,7 +179,6 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
             }
         }
     }
-
     public Adapter getAdapter() {
         return mAdapter;
     }
@@ -198,11 +200,11 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
 
     @Override
     protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        parseIntent(getIntent());
+        setIntent(intent);
+        handleIntent(getIntent());
     }
 
-    private void parseIntent(Intent intent) {
+    private void handleIntent(Intent intent) {
         // If the Activity was started to service a Search request,
         // extract the search query.
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -210,11 +212,11 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
 
             // Perform the search, passing in the search query as an argument
             // to the Cursor Loader
-            Bundle bundle = new Bundle();
-            bundle.putString(QUERY_EXTRA_KEY, searchQuery);
+            Bundle args = new Bundle();
+            args.putString(QUERY_EXTRA_KEY, searchQuery);
 
             // Restart the Cursor Loader to execute the new query.
-            getLoaderManager().restartLoader(0, bundle, this);
+            getLoaderManager().restartLoader(0, args, this);
         }
     }
 

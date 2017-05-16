@@ -159,17 +159,29 @@ public static final String LOG_TAG = QueryUtils.class.getSimpleName();
                 JSONObject bookS = items.getJSONObject(i);
                 JSONObject volumeInfo = bookS.getJSONObject("volumeInfo");
                 String title = volumeInfo.getString("title");
-                String author = volumeInfo.getString("authors");
-                author = author.replace("\"", " ");
-                author = author.replace("]", "");
-                author = author.replace("[", "");
-                String publishedDate = volumeInfo.getString("publishedDate");
+
+                String author;
+                if (volumeInfo.has("authors")) {
+                    author = volumeInfo.getString("authors");
+                    author = author.replace("\"", " ");
+                    author = author.replace("]", "");
+                    author = author.replace("[", "");
+                } else {
+                    author = "author unknown";
+                }
+
+                String publishedDate;
+                if (volumeInfo.has("publishedDate")) {
+                    publishedDate = volumeInfo.getString("publishedDate");
+                } else {
+                    publishedDate = "date unknown";
+                }
 
                 String description;
                 if (volumeInfo.has("description")) {
                     description = volumeInfo.getString("description");
                 } else {
-                    description = "no drscription provided";
+                    description = "no description provided";
                 }
 
                 String url = volumeInfo.getString("infoLink");
@@ -180,11 +192,16 @@ public static final String LOG_TAG = QueryUtils.class.getSimpleName();
                 } else {
                     rating = 0.0;
                 }
-
                 String language = volumeInfo.getString("language");
 
-                JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
-                String thumbnail = imageLinks.getString("thumbnail");
+                JSONObject imageLinks;
+                String thumbnail;
+                if (volumeInfo.has("imageLinks")) {
+                    imageLinks = volumeInfo.getJSONObject("imageLinks");
+                    thumbnail = imageLinks.getString("thumbnail");
+                } else {
+                    thumbnail = "0";
+                }
 
                 book.add(new Book(title, author, publishedDate, description, url, rating, language, thumbnail));
             }

@@ -121,16 +121,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         String formattedRating = formatRating(currentBook.getRating());
         viewHolder.ratingView.setText(formattedRating);
-        // Set the proper background color on the rating circle.
-        // Fetch the background from the TextView, which is a GradientDrawable.
-//        GradientDrawable ratingCircle = (GradientDrawable) viewHolder.ratingView.getBackground();
-        // Get the appropriate background color based on the current book rating
-//        int ratingColor = getRatingColor(currentBook.getRating());
-        // Set the color on the rating circle
-//        ratingCircle.setColor(ratingColor);
 
-        // Return the whole list item layout (containing 5 TextViews 1 ImageView)
-        // so that it can be shown in the ListView
         return convertView;
     }
     class ViewHolder {
