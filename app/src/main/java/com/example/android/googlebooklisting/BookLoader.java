@@ -48,5 +48,7 @@ public class BookLoader extends AsyncTaskLoader<ArrayList<Book>> {
         ArrayList<Book> book = QueryUtils.fetchNewsData(mUrl);
         return book;
     }
+
+
 }
 

@@ -14,8 +14,6 @@ public class Book {
     private String mLanguage;
     private String mThumbnail;
     /** Time of the earthquake */
-    private long mTimeInMilliseconds;
-    private String mDateTime;
 
 
     /**
@@ -93,17 +91,7 @@ public class Book {
         return mThumbnail;
     }
 
-    public long getTimeInMilliseconds() {
-        return mTimeInMilliseconds;
-    }
 
-
-    /**
-     * Get the date of the article.
-     */
-    public String getDateTime(){
-        return mDateTime;
-    }
 
 }
 

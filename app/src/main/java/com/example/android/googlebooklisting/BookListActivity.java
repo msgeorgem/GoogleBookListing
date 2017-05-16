@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -43,15 +44,15 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     private TextView mEmptyStateTextView;
 
     @Override
-    public Loader<ArrayList<Book>> onCreateLoader(int i, Bundle args) {
+    public Loader<ArrayList<Book>> onCreateLoader(int i, Bundle bundle) {
 
         Log.v(LOG_TAG, "onCreateLoader");
         //String query = getString(R.string.settings_query_default);
         String query = "android";
-        if (args != null) {
+        if (bundle != null) {
             Log.i(LOG_TAG, "argument is not null");
             // Extract the search query from the arguments.
-            query = args.getString(QUERY_EXTRA_KEY);
+            query = bundle.getString(QUERY_EXTRA_KEY);
         }
 
         Uri baseUri = Uri.parse(GBOOKS_REQUEST_URL);
@@ -61,7 +62,6 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
         uriBuilder.appendQueryParameter("maxResults", "30");
 
         return new BookLoader(this, uriBuilder.toString());
-
 
     }
 
@@ -74,7 +74,6 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
         // Set empty state text to display "No internet connection"
         mEmptyStateTextView.setText(R.string.no_books);
         mAdapter.clear();
-
         // If there is a valid list of {@link Book}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (books != null && !books.isEmpty()) {
@@ -94,7 +93,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
-        
+
         // Find a reference to the {@link ListView} in the layout
         bookListView = (ListView) findViewById(R.id.list);
 
@@ -107,13 +106,12 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
 
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         bookListView.setEmptyView(mEmptyStateTextView);
-        
+
         //Initiate the Book Loader
         getLoaderManager().initLoader(0, null, this);
-        
+
         // Get the launch Intent        
         handleIntent(getIntent());
-        
 
 
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -179,6 +177,7 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
             }
         }
     }
+
     public Adapter getAdapter() {
         return mAdapter;
     }
@@ -217,6 +216,17 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
 
             // Restart the Cursor Loader to execute the new query.
             getLoaderManager().restartLoader(0, args, this);
+        }
+    }
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //your codes here
+
         }
     }
 
