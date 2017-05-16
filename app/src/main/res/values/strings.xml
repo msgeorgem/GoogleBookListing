@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">GoogleBookListing</string>
     <string name="no_description">No description provided</string>
+    <string name="search_hint">Search a book</string>
+    <string name="search_menu">Search</string>
+    <string name="settings_query_default" translatable="false">Java</string>
+    <string name="no_books">No Books</string>
 </resources>

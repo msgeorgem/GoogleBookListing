@@ -169,8 +169,7 @@ public static final String LOG_TAG = QueryUtils.class.getSimpleName();
                 if (volumeInfo.has("description")) {
                     description = volumeInfo.getString("description");
                 } else {
-                    // TODO: add string
-                    description = "no description provided";
+                    description = "no drscription provided";
                 }
 
                 String url = volumeInfo.getString("infoLink");

@@ -45,8 +45,8 @@ public class BookLoader extends AsyncTaskLoader<ArrayList<Book>> {
         }
         Log.i(LOG_TAG,"loadInBackground");
         // Perform the network request, parse the response, and extract a list of news.
-        ArrayList<Book> singleNews = QueryUtils.fetchNewsData(mUrl);
-        return singleNews;
+        ArrayList<Book> book = QueryUtils.fetchNewsData(mUrl);
+        return book;
     }
 }
 
