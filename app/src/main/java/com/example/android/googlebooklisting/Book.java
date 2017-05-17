@@ -13,7 +13,6 @@ public class Book {
     private double mRating;
     private String mLanguage;
     private String mThumbnail;
-    /** Time of the earthquake */
 
     /**
      * Create a new SingleNews object.
@@ -87,8 +86,6 @@ public class Book {
     public String getThumbnail() {
         return mThumbnail;
     }
-
-
 
 }
 

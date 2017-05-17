@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.SearchRecentSuggestions;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -160,13 +161,14 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
         Log.d(LOG_TAG, "saving listview state @ onPause");
         state = bookListView.onSaveInstanceState();
         index = bookListView.getFirstVisiblePosition();
+
         super.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        Log.d(LOG_TAG, "resuming listview state @ onResume");
         if (getAdapter() != null) {
             bookListView.setAdapter(mAdapter);
             bookListView.setSelectionFromTop(index, 0);
@@ -207,6 +209,10 @@ public class BookListActivity extends AppCompatActivity implements LoaderManager
         // extract the search query.
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String searchQuery = intent.getStringExtra(SearchManager.QUERY);
+
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                    MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+            suggestions.saveRecentQuery(searchQuery, null);
 
             // Perform the search, passing in the search query as an argument
             // to the Cursor Loader
